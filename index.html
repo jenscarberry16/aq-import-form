@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AQ Import Request — Singer H&R</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --navy: #0f2137;
+    --navy-mid: #1a3a5c;
+    --navy-light: #254d75;
+    --accent: #c8a96e;
+    --accent-light: #e8d5a8;
+    --green: #2a6b3a;
+    --green-light: #e6f2ea;
+    --red: #b53a2a;
+    --red-light: #fdf0ee;
+    --amber: #8a6000;
+    --amber-light: #fdf5e0;
+    --gray-900: #111827;
+    --gray-700: #374151;
+    --gray-500: #6b7280;
+    --gray-300: #d1d5db;
+    --gray-100: #f3f4f6;
+    --gray-50: #f9fafb;
+    --white: #ffffff;
+    --border: #dde1e7;
+    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+    --radius: 10px;
+    --font-body: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--gray-900);
+    background: #eef0f3;
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), #e8c87a, var(--accent));
+  }
+  .header-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 28px 32px 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-mark {
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--navy);
+    letter-spacing: -.5px;
+    flex-shrink: 0;
+  }
+  .logo-text h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: -.3px;
+    line-height: 1.2;
+  }
+  .logo-text p {
+    font-size: 11px;
+    color: rgba(255,255,255,.55);
+    margin-top: 2px;
+    font-family: var(--font-mono);
+    letter-spacing: .02em;
+  }
+  .header-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    border: 1px solid rgba(200,169,110,.3);
+    border-radius: 20px;
+    padding: 4px 10px;
+    letter-spacing: .05em;
+    white-space: nowrap;
+  }
+
+  /* NOTICE BAR */
+  .notice-bar {
+    background: var(--navy-mid);
+    padding: 10px 0;
+  }
+  .notice-bar-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 32px;
+    font-size: 11.5px;
+    color: rgba(255,255,255,.7);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+  }
+  .notice-bar-inner span { color: var(--accent-light); }
+
+  /* MAIN CONTENT */
+  .main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 28px 32px 0;
+  }
+
+  /* SECTIONS */
+  .section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .section-header {
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-num {
+    width: 22px;
+    height: 22px;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: -.1px;
+  }
+  .section-sub {
+    font-size: 11px;
+    color: var(--gray-500);
+    margin-top: 1px;
+  }
+  .section-body { padding: 18px 20px; }
+
+  /* FORM ELEMENTS */
+  .form-grid { display: grid; gap: 14px; }
+  .col-2 { grid-template-columns: 1fr 1fr; }
+  .col-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .col-1 { grid-template-columns: 1fr; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .label {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--gray-700);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-family: var(--font-mono);
+  }
+  .label .req { color: var(--red); margin-left: 2px; }
+
+  input[type="text"], input[type="date"], input[type="email"], select, textarea {
+    padding: 9px 11px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    font-size: 13px;
+    font-family: var(--font-body);
+    color: var(--gray-900);
+    background: var(--white);
+    width: 100%;
+    transition: border-color .15s, box-shadow .15s;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--navy-mid);
+    box-shadow: 0 0 0 3px rgba(26,58,92,.08);
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+    cursor: pointer;
+  }
+  textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+  ::placeholder { color: var(--gray-300); }
+
+  /* RADIO GROUPS */
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 2px;
+  }
+  .radio-group.vertical { flex-direction: column; gap: 8px; }
+  .radio-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--gray-700);
+    padding: 7px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    transition: all .12s;
+    user-select: none;
+    background: var(--white);
+  }
+  .radio-label:hover { border-color: var(--navy-mid); background: var(--gray-50); }
+  .radio-label input[type="radio"] {
+    width: 14px; height: 14px;
+    accent-color: var(--navy-mid);
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 0; border: none;
+  }
+  .radio-label.selected {
+    border-color: var(--navy-mid);
+    background: #f0f5fb;
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  /* HIDDEN BLOCK */
+  .ds-block { display: none; }
+  .ds-block.visible { display: block; }
+
+  /* ALERT BOXES */
+  .alert {
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 12px;
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .alert-icon { flex-shrink: 0; font-size: 14px; margin-top: 0px; }
+  .alert-amber { background: var(--amber-light); color: var(--amber); border: 1px solid #f0d080; }
+  .alert-navy { background: #eef3f8; color: var(--navy-mid); border: 1px solid #c8d8e8; }
+  .alert-green { background: var(--green-light); color: var(--green); border: 1px solid #b0d8ba; }
+
+  /* CERT SECTION */
+  .cert-section {
+    background: var(--white);
+    border: 2px solid var(--red);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .cert-header {
+    background: var(--red);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cert-header-text h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .cert-header-text p {
+    font-size: 11px;
+    color: rgba(255,255,255,.75);
+    margin-top: 2px;
+  }
+  .cert-body { padding: 18px 20px; }
+
+  /* CERT CHECKBOXES */
+  .cert-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .cert-item:last-of-type { border-bottom: none; padding-bottom: 0; }
+  .cert-checkbox {
+    width: 20px; height: 20px;
+    border: 2px solid var(--gray-300);
+    border-radius: 5px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .15s;
+    background: var(--white);
+  }
+  .cert-checkbox:hover { border-color: var(--green); }
+  .cert-checkbox.checked {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .cert-checkbox.checked::after {
+    content: '';
+    width: 5px; height: 9px;
+    border: 2px solid var(--white);
+    border-top: none; border-left: none;
+    transform: rotate(45deg) translate(-1px, -1px);
+    display: block;
+  }
+  .cert-text {
+    font-size: 12.5px;
+    color: var(--gray-700);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .cert-text.done { color: var(--gray-500); text-decoration: line-through; }
+
+  /* SIGNATURE */
+  .sig-block {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--gray-300);
+  }
+  .sig-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-family: var(--font-mono);
+    margin-bottom: 6px;
+  }
+
+  /* PREVIEW */
+  .preview-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .preview-header {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .preview-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gray-700);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  .preview-meta {
+    font-size: 10.5px;
+    color: var(--gray-500);
+    font-family: var(--font-mono);
+  }
+  .preview-body {
+    padding: 16px 20px;
+    background: var(--gray-50);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--gray-700);
+    white-space: pre-wrap;
+    max-height: 260px;
+    overflow-y: auto;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .preview-placeholder {
+    color: var(--gray-300);
+    font-style: italic;
+    font-family: var(--font-body);
+    font-size: 12px;
+  }
+  .preview-footer {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--gray-500);
+  }
+  .preview-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green { background: #22c55e; }
+  .dot-gray { background: var(--gray-300); }
+
+  /* SEND BUTTON */
+  .send-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px 24px;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .15s, transform .1s;
+    letter-spacing: -.1px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .send-btn::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+  }
+  .send-btn:hover { background: var(--navy-light); transform: translateY(-1px); }
+  .send-btn:active { transform: translateY(0); }
+  .send-btn .arrow { font-size: 16px; }
+  .send-note {
+    text-align: center;
+    font-size: 11px;
+    color: var(--gray-500);
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+  }
+
+  /* PROGRESS */
+  .progress-bar {
+    height: 4px;
+    background: var(--gray-100);
+    border-radius: 2px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--navy-mid), var(--accent));
+    border-radius: 2px;
+    transition: width .3s ease;
+    width: 0%;
+  }
+
+  /* CC ROW */
+  .cc-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .cc-chip {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--navy-mid);
+    background: #eef3f8;
+    border: 1px solid #c8d8e8;
+    border-radius: 20px;
+    padding: 3px 10px;
+    white-space: nowrap;
+  }
+  .cc-chip.auto { border-style: dashed; color: var(--gray-500); }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--gray-100);
+    margin: 14px 0;
+  }
+
+  /* FOOTER */
+  .footer {
+    max-width: 820px;
+    margin: 24px auto 0;
+    padding: 0 32px;
+    font-size: 11px;
+    color: var(--gray-500);
+    text-align: center;
+    font-family: var(--font-mono);
+    line-height: 1.7;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 620px) {
+    .header-inner { padding: 20px 20px 18px; flex-wrap: wrap; }
+    .main { padding: 18px 16px 0; }
+    .section-body { padding: 14px 16px; }
+    .cert-body { padding: 14px 16px; }
+    .col-2, .col-3 { grid-template-columns: 1fr; }
+    .footer { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">H&R</div>
+      <div class="logo-text">
+        <h1>Singer H&R</h1>
+        <p>SINGER MS, LLC DBA SINGER H&R</p>
+      </div>
+    </div>
+    <div class="header-badge">AQ IMPORT REQUEST</div>
+  </div>
+</header>
+
+<div class="notice-bar">
+  <div class="notice-bar-inner">
+    <span>→</span>
+    Submit to Contract Admin &nbsp;·&nbsp; Complete all required fields &nbsp;·&nbsp; Certify AQ accuracy before sending
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="progress-bar" style="margin-top:20px">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <div class="alert alert-navy">
+    <span class="alert-icon">ℹ️</span>
+    <div>Fill out all fields below, certify AQ accuracy, then click <strong>Open Email</strong>. Your email client will open with everything pre-filled — review and click <strong>Send</strong>. CC recipients are added automatically.</div>
+  </div>
+
+  <!-- SECTION 1: PROJECT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <div class="section-title">AutoQuotes Project Details</div>
+        <div class="section-sub">Enter the exact project name as it appears in AutoQuotes</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="form-grid col-2">
+        <div class="field">
+          <label class="label">AQ Project Name — exact as in AQ <span class="req">*</span></label>
+          <input type="text" id="aq_proj" placeholder="Exact AutoQuotes project name" oninput="build()">
+        </div>
+        <div class="field">
+          <label class="label">Submitted by <span class="req">*</span></label>
+          <select id="aq_sub" onchange="build()">
+            <option value="">Select your name...</option>
+            <option value="Wilson Bounds|wbounds">Wilson Bounds</option>
+            <option value="Mitch Whitehead|mwhitehead">Mitch Whitehead</option>
+            <option value="Brent Husband|bhusband">Brent Husband</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid col-2" style="margin-top:14px">
+        <div class="field">
+          <label class="label">Did we specify this job? <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-label" id="spec_yes"><input type="radio" name="aq_spec" value="Yes — we specified" onchange="updateRadios();build()"> Yes — we specified</label>
+            <label class="radio-label" id="spec_no"><input type="radio" name="aq_spec" value="No — bid only" onchange="updateRadios();build()"> No — bid only</label>
+            <label class="radio-label" id="spec_part"><input type="radio" name="aq_spec" value="Partial spec" onchange="updateRadios();build()"> Partial spec</label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">P21 Account # (if known)</label>
+          <input type="text" id="aq_acct" placeholder="Account number" oninput="build()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: SHIPPING -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <div class="section-title">Shipping & Delivery</div>
+        <div class="section-sub">Where is this going and who receives it?</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="form-grid col-2">
+        <div class="field">
+          <label class="label">Where will this ship? <span class="req">*</span></label>
+          <div class="radio-group vertical">
+            <label class="radio-label" id="ship_wh"><input type="radio" name="aq_ship" value="Singer warehouse (standard)" onchange="updateRadios();toggleDS();build()"> Singer warehouse (standard)</label>
+            <label class="radio-label" id="ship_dir"><input type="radio" name="aq_ship" value="Direct ship to job site" onchange="updateRadios();toggleDS();build()"> Direct ship to job site</label>
+            <label class="radio-label" id="ship_part"><input type="radio" name="aq_ship" value="Partial direct / partial warehouse" onchange="updateRadios();toggleDS();build()"> Partial direct / partial warehouse</label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Delivery / Ship-To Address <span class="req">*</span></label>
+          <textarea id="aq_addr" placeholder="Full delivery address&#10;City, State ZIP" oninput="build()" style="min-height:108px"></textarea>
+        </div>
+      </div>
+
+      <!-- DIRECT SHIP BLOCK -->
+      <div class="ds-block" id="dsBlock" style="margin-top:14px">
+        <div class="alert alert-amber">
+          <span class="alert-icon">⚠️</span>
+          <div>Direct or partial direct ship selected — please complete the additional fields below.</div>
+        </div>
+        <div class="form-grid col-2">
+          <div class="field">
+            <label class="label">Fake Direct Ship required? <span class="req">*</span></label>
+            <div class="radio-group">
+              <label class="radio-label" id="fds_yes"><input type="radio" name="aq_fds" value="Yes — fake direct ship required" onchange="updateRadios();build()"> Yes</label>
+              <label class="radio-label" id="fds_no"><input type="radio" name="aq_fds" value="No" onchange="updateRadios();build()"> No</label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Which items are direct / fake direct?</label>
+            <textarea id="aq_dsItems" placeholder="e.g. Hood line items ship direct; smallwares from warehouse" oninput="build()"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <div class="form-grid col-2">
+        <div class="field">
+          <label class="label">Delivery Contact Name <span class="req">*</span></label>
+          <input type="text" id="aq_delName" placeholder="On-site contact person" oninput="build()">
+        </div>
+        <div class="field">
+          <label class="label">Delivery Contact Phone <span class="req">*</span></label>
+          <input type="text" id="aq_delPhone" placeholder="555-000-0000" oninput="build()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: DATES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <div class="section-title">Dates</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="form-grid col-3">
+        <div class="field">
+          <label class="label">Requested Ship Date <span class="req">*</span></label>
+          <input type="date" id="aq_shipdt" oninput="build()">
+        </div>
+        <div class="field">
+          <label class="label">Install Date <span class="req">*</span></label>
+          <input type="date" id="aq_instdt" oninput="build()">
+        </div>
+        <div class="field">
+          <label class="label">Needed in P21 by</label>
+          <input type="date" id="aq_p21by" oninput="build()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: ADDITIONAL INFO -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <div class="section-title">Additional Information for Contract Admin</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="form-grid col-2">
+        <div class="field">
+          <label class="label">Contract / Subcontract with this job?</label>
+          <div class="radio-group">
+            <label class="radio-label" id="con_yes"><input type="radio" name="aq_contract" value="Yes — contract will follow for intake" onchange="updateRadios();build()"> Yes — contract follows</label>
+            <label class="radio-label" id="con_no"><input type="radio" name="aq_contract" value="No — agreement / PO only" onchange="updateRadios();build()"> No — PO / agreement only</label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Fabricated items involved?</label>
+          <div class="radio-group">
+            <label class="radio-label" id="fab_yes"><input type="radio" name="aq_fab" value="Yes — fab order needed" onchange="updateRadios();build()"> Yes — fab order needed</label>
+            <label class="radio-label" id="fab_no"><input type="radio" name="aq_fab" value="No" onchange="updateRadios();build()"> No</label>
+          </div>
+        </div>
+      </div>
+      <div class="field" style="margin-top:14px">
+        <label class="label">Special Instructions / Notes for Contract Admin</label>
+        <textarea id="aq_notes" placeholder="Tax exempt? Sub-tier vendor coordination needed? Any other details CA needs before importing..." oninput="build()"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- CERTIFICATION -->
+  <div class="cert-section">
+    <div class="cert-header">
+      <span style="font-size:20px">⚠️</span>
+      <div class="cert-header-text">
+        <h3>AQ Accuracy Certification — Required Before Submission</h3>
+        <p>You must check all items and sign below. Inaccurate AQ data causes significant rework after P21 import.</p>
+      </div>
+    </div>
+    <div class="cert-body">
+      <div id="certItems"></div>
+      <div class="sig-block">
+        <div class="sig-label">Requestor Full Name — Typed Certification <span style="color:var(--red)">*</span></div>
+        <input type="text" id="aq_certName" placeholder="Type your full name to certify the above statements" oninput="build()" style="font-style:italic">
+        <div style="margin-top:8px;font-size:11px;color:var(--gray-500);font-family:var(--font-mono)">By typing your name above, you affirm that all information in this AutoQuotes project is complete, accurate, and ready for import into P21. You acknowledge that modifications following import may result in material administrative burden and operational delays.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMAIL PREVIEW -->
+  <div class="preview-section">
+    <div class="preview-header">
+      <div class="preview-title">Email Preview</div>
+      <div class="preview-meta" id="previewMeta">—</div>
+    </div>
+    <div class="preview-body" id="previewBody">
+      <span class="preview-placeholder">Fill in the fields above and your email will build here automatically...</span>
+    </div>
+    <div class="preview-footer">
+      <div class="preview-dot" id="previewDot" style="background:var(--gray-300)"></div>
+      <span id="previewStatus">Waiting for input</span>
+    </div>
+  </div>
+
+  <!-- CC RECIPIENTS -->
+  <div style="margin-bottom:14px">
+    <div style="font-size:11px;font-weight:600;color:var(--gray-700);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">CC Recipients (auto-added)</div>
+    <div class="cc-row">
+      <span class="cc-chip">Linda Phillips — lphillips@singerequipment.com</span>
+      <span class="cc-chip">Walt Wasson — wwwasson@singerequipment.com</span>
+      <span class="cc-chip auto" id="smChip">Submitter — (select your name above)</span>
+    </div>
+  </div>
+
+  <!-- SEND BUTTON -->
+  <a href="#" class="send-btn" id="sendBtn" onclick="return doSend()">
+    <span>Open Email to Contract Admin</span>
+    <span class="arrow">↗</span>
+  </a>
+  <div class="send-note">Your email client opens with everything pre-filled &nbsp;·&nbsp; Review and click Send</div>
+
+</main>
+
+<footer class="footer">
+  Singer MS, LLC dba Singer H&R &nbsp;·&nbsp; 4315 Industrial Drive, Jackson, MS 39209 &nbsp;·&nbsp; 601.326.6127<br>
+  This form is for internal use by the Singer H&R sales team. Questions? Contact Contract Admin — Jeannie Scarberry.
+</footer>
+
+<script>
+// ── CERT ITEMS ────────────────────────────────────────────────────
+const certTexts = [
+  'I have reviewed the AutoQuotes project in its entirety and confirm it is complete and accurate as submitted.',
+  'All vendors, manufacturers, and suppliers have been listed correctly with the appropriate model numbers and configurations.',
+  'All pricing, discounts, and extended totals have been verified and are correct.',
+  'All quantities are accurate and reflect the final, approved scope of work.',
+  'I understand that once this project is imported into P21, changes to the order may result in significant additional administrative work and potential delays. I confirm the AQ data is final and ready for import.',
+  'I have not omitted any line items, accessories, or related equipment required to fulfill this order.'
+];
+let certState = {};
+
+document.getElementById('certItems').innerHTML = certTexts.map((t, i) => `
+  <div class="cert-item">
+    <div class="cert-checkbox" id="cc_${i}" onclick="togCert(${i})" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')togCert(${i})"></div>
+    <div class="cert-text" id="ct_${i}">${t}</div>
+  </div>`).join('');
+
+function togCert(i) {
+  certState[i] = !certState[i];
+  const box = document.getElementById('cc_' + i);
+  const txt = document.getElementById('ct_' + i);
+  box.classList.toggle('checked', certState[i]);
+  box.setAttribute('aria-checked', certState[i]);
+  txt.classList.toggle('done', certState[i]);
+  build();
+  updateProgress();
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────
+function getSM() {
+  const v = document.getElementById('aq_sub').value;
+  if (!v) return { name: '', email: '' };
+  const [name, handle] = v.split('|');
+  return { name, email: handle + '@singerequipment.com' };
+}
+
+function fmtD(v) {
+  if (!v) return '—';
+  const d = new Date(v + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+function toggleDS() {
+  const v = document.querySelector('input[name="aq_ship"]:checked')?.value || '';
+  const show = v.includes('irect') || v.includes('artial');
+  document.getElementById('dsBlock').classList.toggle('visible', show);
+}
+
+function updateRadios() {
+  const groups = {
+    aq_spec: ['spec_yes', 'spec_no', 'spec_part'],
+    aq_ship: ['ship_wh', 'ship_dir', 'ship_part'],
+    aq_fds:  ['fds_yes', 'fds_no'],
+    aq_contract: ['con_yes', 'con_no'],
+    aq_fab:  ['fab_yes', 'fab_no'],
+  };
+  Object.entries(groups).forEach(([name, ids]) => {
+    const checked = document.querySelector(`input[name="${name}"]:checked`)?.value;
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const val = el.querySelector('input')?.value;
+      el.classList.toggle('selected', val === checked);
+    });
+  });
+}
+
+function updateProgress() {
+  const fields = ['aq_proj', 'aq_sub', 'aq_addr', 'aq_delName', 'aq_delPhone', 'aq_shipdt', 'aq_instdt', 'aq_certName'];
+  const radios = ['aq_spec', 'aq_ship'];
+  let filled = 0, total = fields.length + radios.length + certTexts.length + 1;
+  fields.forEach(id => { if (document.getElementById(id)?.value?.trim()) filled++; });
+  radios.forEach(n => { if (document.querySelector(`input[name="${n}"]:checked`)) filled++; });
+  filled += Object.values(certState).filter(Boolean).length;
+  const pct = Math.min(100, Math.round(filled / total * 100));
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+// ── BUILD EMAIL ───────────────────────────────────────────────────
+let emailBody = '', emailSubj = '';
+
+function build() {
+  updateRadios();
+  updateProgress();
+
+  const proj     = document.getElementById('aq_proj').value.trim();
+  const sm       = getSM();
+  const spec     = document.querySelector('input[name="aq_spec"]:checked')?.value || 'Not specified';
+  const shipType = document.querySelector('input[name="aq_ship"]:checked')?.value || 'Not specified';
+  const addr     = document.getElementById('aq_addr').value.trim();
+  const fds      = document.querySelector('input[name="aq_fds"]:checked')?.value || '';
+  const dsItems  = document.getElementById('aq_dsItems').value.trim();
+  const delName  = document.getElementById('aq_delName').value.trim();
+  const delPhone = document.getElementById('aq_delPhone').value.trim();
+  const shipdt   = document.getElementById('aq_shipdt').value;
+  const instdt   = document.getElementById('aq_instdt').value;
+  const p21by    = document.getElementById('aq_p21by').value;
+  const contract = document.querySelector('input[name="aq_contract"]:checked')?.value || 'Not specified';
+  const fab      = document.querySelector('input[name="aq_fab"]:checked')?.value || 'Not specified';
+  const acct     = document.getElementById('aq_acct').value.trim();
+  const notes    = document.getElementById('aq_notes').value.trim();
+  const certName = document.getElementById('aq_certName').value.trim();
+  const allCert  = Object.keys(certState).length === certTexts.length && Object.values(certState).every(v => v);
+
+  // SM chip
+  if (sm.name) {
+    document.getElementById('smChip').textContent = sm.name + ' — ' + sm.email;
+    document.getElementById('smChip').classList.remove('auto');
+  } else {
+    document.getElementById('smChip').textContent = 'Submitter — (select your name above)';
+    document.getElementById('smChip').classList.add('auto');
+  }
+
+  if (!proj) {
+    document.getElementById('previewBody').innerHTML = '<span class="preview-placeholder">Fill in the fields above and your email will build here automatically...</span>';
+    document.getElementById('previewMeta').textContent = '—';
+    document.getElementById('previewDot').style.background = 'var(--gray-300)';
+    document.getElementById('previewStatus').textContent = 'Waiting for input';
+    return;
+  }
+
+  emailSubj = `AQ Import Request — ${proj}${sm.name ? ' (' + sm.name + ')' : ''}`;
+
+  let b = `CONTRACT ADMIN — AQ IMPORT REQUEST\n${'='.repeat(52)}\n\n`;
+  b += `AQ PROJECT NAME: ${proj}\n`;
+  b += `SUBMITTED BY:    ${sm.name || '—'}\n`;
+  if (acct) b += `P21 ACCOUNT #:   ${acct}\n`;
+  b += `DID WE SPECIFY:  ${spec}\n\n`;
+
+  b += `SHIPPING & DELIVERY\n${'─'.repeat(40)}\n`;
+  b += `  Ship to:           ${shipType}\n`;
+  if (addr) b += `  Delivery address:  ${addr.replace(/\n/g, ', ')}\n`;
+  if (fds)  b += `  Fake direct ship:  ${fds}\n`;
+  if (dsItems) b += `  Direct ship items: ${dsItems}\n`;
+  if (delName || delPhone) b += `  Delivery contact:  ${delName}${delPhone ? ' · ' + delPhone : ''}\n`;
+
+  b += `\nDATES\n${'─'.repeat(40)}\n`;
+  b += `  Requested ship date: ${fmtD(shipdt)}\n`;
+  b += `  Install date:        ${fmtD(instdt)}\n`;
+  if (p21by) b += `  Needed in P21 by:   ${fmtD(p21by)}\n`;
+
+  b += `\nCONTRACT / DOCS\n${'─'.repeat(40)}\n`;
+  b += `  Contract with this job: ${contract}\n`;
+  b += `  Fabricated items:       ${fab}\n`;
+
+  if (notes) b += `\nSPECIAL INSTRUCTIONS\n${'─'.repeat(40)}\n${notes}\n`;
+
+  b += `\nAQ ACCURACY CERTIFICATION\n${'─'.repeat(40)}\n`;
+  b += `The undersigned requestor hereby certifies, to the best of their knowledge and belief, that the AutoQuotes project referenced above has been reviewed for completeness and accuracy prior to submission for import into P21. The requestor affirms that all vendors, line items, quantities, pricing, and configurations are correct and final, and acknowledges that modifications following import may result in material administrative burden and operational delays.\n\n`;
+  b += `Certified by: ${certName || '[NAME NOT PROVIDED]'}\n`;
+  b += `Date:         ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}\n`;
+  b += `All accuracy statements confirmed: ${allCert ? 'YES — All 6 items certified' : 'INCOMPLETE — Not all items checked'}\n\n`;
+  b += `${sm.name || 'Sales Team'} — Singer MS, LLC dba Singer H&R`;
+
+  emailBody = b;
+
+  const cc = ['lphillips@singerequipment.com', 'wwwasson@singerequipment.com'];
+  if (sm.email) cc.push(sm.email);
+
+  const ready = proj && delName && delPhone && addr && shipdt && instdt && certName;
+  document.getElementById('previewBody').textContent = `To: jscarberry@singerequipment.com\nCC: ${cc.join(', ')}\nSubject: ${emailSubj}\n\n${b}`;
+  document.getElementById('previewMeta').textContent = emailSubj;
+  document.getElementById('previewDot').style.background = ready ? '#22c55e' : '#f59e0b';
+  document.getElementById('previewStatus').textContent = ready ? 'Ready to send' : 'Complete required fields to send';
+}
+
+// ── SEND ──────────────────────────────────────────────────────────
+function doSend() {
+  const proj     = document.getElementById('aq_proj').value.trim();
+  const certName = document.getElementById('aq_certName').value.trim();
+  const delName  = document.getElementById('aq_delName').value.trim();
+  const shipdt   = document.getElementById('aq_shipdt').value;
+  const instdt   = document.getElementById('aq_instdt').value;
+  const addr     = document.getElementById('aq_addr').value.trim();
+
+  if (!proj)     { alert('Please enter the AQ project name before sending.'); return false; }
+  if (!delName)  { alert('Please enter the delivery contact name before sending.'); return false; }
+  if (!addr)     { alert('Please enter the delivery address before sending.'); return false; }
+  if (!shipdt)   { alert('Please enter the requested ship date before sending.'); return false; }
+  if (!instdt)   { alert('Please enter the install date before sending.'); return false; }
+  if (!certName) { alert('Please type your full name in the Accuracy Certification section before sending.'); return false; }
+
+  const allCert = Object.keys(certState).length === certTexts.length && Object.values(certState).every(v => v);
+  if (!allCert) {
+    if (!confirm('Not all accuracy certification items have been checked.\n\nAre you sure you want to send without certifying all items?')) return false;
+  }
+
+  const sm = getSM();
+  const cc = ['lphillips@singerequipment.com', 'wwwasson@singerequipment.com'];
+  if (sm.email) cc.push(sm.email);
+
+  window.location.href = `mailto:jscarberry@singerequipment.com?cc=${encodeURIComponent(cc.join(','))}&subject=${encodeURIComponent(emailSubj)}&body=${encodeURIComponent(emailBody)}`;
+  return false;
+}
+
+// Init
+updateRadios();
+build();
+</script>
+</body>
+</html>
